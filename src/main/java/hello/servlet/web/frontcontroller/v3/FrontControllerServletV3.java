@@ -40,17 +40,27 @@ public class FrontControllerServletV3 extends HttpServlet {
 
         //paramMap
         Map<String, String> paramMap = createParamMap(request);
-
         ModelView mv = controller.process(paramMap);
-        view.render(request,response);
 
 
+        String viewName = mv.getViewName();
+
+        MyView view = viewResolver(viewName);
+
+        view.render(mv.getModel(), request, response);
+
+
+    }
+
+    private MyView viewResolver(String viewName) {
+        return new MyView("/WEB-INF/views/" + viewName + ".jsp");
     }
 
     private Map<String, String> createParamMap(HttpServletRequest request) {
         Map<String, String> paramMap = new HashMap<>();
         request.getParameterNames().asIterator()
                 .forEachRemaining(paramName->paramMap.put(paramName, request.getParameter(paramName)));
+        //루프로 파라미터이름과 값을 prarmMap에 저장
         return paramMap;
     }
 }
