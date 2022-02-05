@@ -30,7 +30,7 @@ public class FrontControllerServletV3 extends HttpServlet {
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         System.out.println("FrontControllerServletV3.service");
 
-
+        //컨트롤러 조회
         String requestURI = request.getRequestURI();
         ControllerV3 controller = controllerMap.get(requestURI);
         if (controller == null) {
@@ -38,15 +38,17 @@ public class FrontControllerServletV3 extends HttpServlet {
             return;
         }
 
-        //paramMap
+        //paramMap 요청파라미터 추출
         Map<String, String> paramMap = createParamMap(request);
+
+        //논리주소(viewName) 반환 & Member를 이용해서 MemberRepository의 store에 파라미터 저장 & ModelView 호출 ModelView의 model에 Member저장, ModelView 구성요소 == 논리주소 & model
         ModelView mv = controller.process(paramMap);
-
-
         String viewName = mv.getViewName();
 
+        //viewResolver호출 MyView반환 물리적 주소
         MyView view = viewResolver(viewName);
 
+        //render(model) 호출
         view.render(mv.getModel(), request, response);
 
 
