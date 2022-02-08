@@ -19,7 +19,7 @@ public class ControllerV3HandlerAdapter implements MyHandlerAdapter {
 
     @Override
     public ModelView handle(HttpServletRequest request, HttpServletResponse response, Object handler) throws ServletException, IOException {
-        ControllerV3 controller = (ControllerV3) handler;
+        ControllerV3 controller = (ControllerV3) handler;//handler를 컨트롤러로 변환
 
 
         Map<String, String> paramMap = createParamMap(request);
